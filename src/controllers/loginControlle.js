@@ -19,3 +19,21 @@ export async function loginController(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function FinishSession(req,res){
+  const { authorization } = req.headers;
+  const token = authorization?.replace("Bearer ","")
+  if(!token){
+      res.sendStatus(404)
+      return
+  }
+  try{
+      await db.collection("sessions").deleteOne({ token });
+      return  res.status(200).send({ message: "Sessão finalizada" });
+    
+  }
+  catch(err){
+      return  res.status(500).send({message:err.message})
+    
+  }
+}

@@ -31,3 +31,13 @@ export async function loginValidate(req, res, next) {
 
   next();
 }
+export async function finishSessionValidate(req,res,next){
+  console.log('validação')
+  const { authorization } = req.headers;
+  const token = authorization?.replace("Bearer ","")
+  if(!token){
+      res.sendStatus(404)
+      return
+  }
+next()
+}
