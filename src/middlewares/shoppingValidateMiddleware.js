@@ -5,16 +5,20 @@ export async function addShoppingValidateMiddleware(req,res,next){
     const {userId} = req.body
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ","")
-
-    const userExist = await db?.collection('users').findOne({_id: ObjectID(userId)})
-    console.log('VALIDAÇAO RODANDO')
-    if(!userExist){
-        console.log('usuario nao encontrado')
-        return res.sendStatus(404)
+    try{
+        const userExist = await db?.collection('users').findOne({_id: ObjectID(userId)})
+        console.log('VALIDAÇAO RODANDO')
+        if(!userExist){
+            console.log('usuario nao encontrado')
+            return res.sendStatus(404)
+        }
+        if(!token){
+            res.sendStatus(404)
+            return
+        }
     }
-    if(!token){
-        res.sendStatus(404)
-        return
+    catch(error){
+        res.send(error)
     }
     next()
 }
