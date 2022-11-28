@@ -1,11 +1,18 @@
 import db from "../database/db.js"
 import { ObjectID } from "bson"
+import productsSchema from "../schemas/productsSchema.js";
 export async function addProductsValidate(req,res,next){
     const {authorization} = req.headers
+    const product = req.body
+    const { error } = productsSchema.validate(product, { abortEarly: false });
 
+    if (error) {
+      const errors = error.details.map((detail) => detail.message);
+      return res.status(401).send(errors);
+    }
     try{
         const token = authorization?.replace("Bearer ","")
-        console.log(token)
+        console.log(token,'TOKEN')
         if(!token){
         console.log('token nao fornecido')
         return res.sendStatus(401)
