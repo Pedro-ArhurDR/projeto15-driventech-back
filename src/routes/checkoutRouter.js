@@ -1,5 +1,5 @@
 
-const productsRouter = Router();
+const checkoutRouter = Router();
 
-productsRouter.post("/checkout",)
-export default productsRouter;
+checkoutRouter.post("/checkout",)
+export default checkoutRouter;
