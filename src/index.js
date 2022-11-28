@@ -7,6 +7,5 @@ app.use(json());
 app.use(cors());
 app.use(routers);
 
-app.listen(5000, () => {
-  console.log("Conectado");
-});
+const port = process.env.PORT 
+app.listen(port,() => console.log(`Server running in port:${port}`) )
