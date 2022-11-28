@@ -1,5 +1,5 @@
 import db from "../database/db.js";
-
+import { ObjectID } from "bson";
 export async function shoppingController(req,res){
     const { authorization } = req.headers;
     console.log(authorization,'seu token')
@@ -11,7 +11,7 @@ export async function shoppingController(req,res){
 
         const session =  await db.collection("sessions").findOne({token})
         const myId = session.userId.toString()
-        const myProducts = await db.collection("shopping").find({userId:myId}).toArray()
+        const myProducts = await db.collection("shopping").find({_id: ObjectID(myId)}).toArray()
         res.send(myProducts)
     }
     catch{

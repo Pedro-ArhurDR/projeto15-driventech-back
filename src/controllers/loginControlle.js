@@ -23,10 +23,6 @@ export async function loginController(req, res) {
 export async function FinishSession(req,res){
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ","")
-  if(!token){
-      res.sendStatus(404)
-      return
-  }
   try{
       await db.collection("sessions").deleteOne({ token });
       return  res.status(200).send({ message: "Sessão finalizada" });
